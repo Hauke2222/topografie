@@ -1,6 +1,26 @@
 path:hover {
-    fill: lightgreen;
+    fill: lightgray;
     cursor: pointer;
+}
+
+.land {
+    fill: #b1b1b1;
+    fill-opacity: 1;
+    stroke: white;
+    stroke-opacity: 1;
+    stroke-width: 0.5;
+}
+
+.correct {
+    fill: lightgreen;
+}
+
+.incorrect {
+    fill: lightcoral;
+}
+
+svg {
+    padding: 12px 12px;
 }
 
 body {
@@ -8,6 +28,8 @@ body {
         "Book Antiqua", Georgia, serif;
     background-color: #fffff8;
     color: #111;
+    margin: 0 auto;
+    max-width: 45rem;
 }
 
 a,
