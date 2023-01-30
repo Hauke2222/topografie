@@ -1,4 +1,7 @@
 let province;
+let right = 0;
+let wrong = 0;
+
 let provinces = [
     {id: 'NL-DR', name: 'Drenthe'},
     {id: 'NL-FL', name: 'Flevoland'},
@@ -20,6 +23,13 @@ function randomProvince() {
     questionEl.innerHTML = 'Klik op de provincie ' + province.name;
 }
 
+function clearElementClasses() {
+    Array.from(document.querySelectorAll('.correct, .incorrect')).forEach(el => {
+        el.classList.remove('correct');
+        el.classList.remove('incorrect');
+    });
+}
+
 const paths = document.querySelectorAll('path');
 paths.forEach(path => {
     path.addEventListener('click', e => {
@@ -29,11 +39,22 @@ paths.forEach(path => {
         if (clickedProvince === province) {
             let path = document.getElementById(id);
             path.classList.add('correct');
+            right += 1;
+            document.getElementById('right').textContent = `Goed: ${right}`;
         } else {
             let path = document.getElementById(id);
             path.classList.add('incorrect');
+            wrong += 1;
+            document.getElementById('wrong').textContent = `Fouten: ${wrong}`;
         }
     });
 });
 
-randomProvince();
+document.getElementById('next').addEventListener('click', newQuestion);
+
+function newQuestion() {
+    clearElementClasses();
+    randomProvince();
+}
+
+newQuestion();
