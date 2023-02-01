@@ -30,6 +30,24 @@ function clearElementClasses() {
     });
 }
 
+function autoNext() {
+    let counter = 5;
+    let interval = 1000;
+    document.getElementById('next').style.visibility = 'visible';
+
+    for (let i = 0; i < counter; i++) {
+        setTimeout(function () {
+            document.getElementById('auto-next').innerText = `Automatisch volgende over ${counter}`;
+            counter--;
+        }, i * interval);
+    }
+    setTimeout(function () {
+        newQuestion();
+        document.getElementById('auto-next').innerText = ``;
+        document.getElementById('next').style.visibility = 'hidden';
+    }, 5000);
+}
+
 const paths = document.querySelectorAll('path');
 paths.forEach(path => {
     path.addEventListener('click', e => {
@@ -41,11 +59,12 @@ paths.forEach(path => {
             path.classList.add('correct');
             right += 1;
             document.getElementById('right').textContent = `Goed: ${right}`;
+            autoNext();
         } else {
             let path = document.getElementById(id);
             path.classList.add('incorrect');
             wrong += 1;
-            document.getElementById('wrong').textContent = `Fouten: ${wrong}`;
+            document.getElementById('wrong').textContent = `Fout: ${wrong}`;
         }
     });
 });
