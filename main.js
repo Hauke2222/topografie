@@ -25,7 +25,6 @@ function randomProvince() {
         province = provinces[Math.floor(Math.random() * provinces.length)];
     } while (province === previousProvince);
 
-    previousProvince = province;
     let questionEl = document.getElementById('question');
     questionEl.innerHTML = 'Klik op de provincie ' + province.name;
 }
@@ -45,7 +44,7 @@ function autoNext() {
     for (let i = 0; i < counter; i++) {
         timers.push(
             setTimeout(function () {
-                document.getElementById('auto-next').innerText = `Automatisch volgende over ${counter}`;
+                document.getElementById('auto-next').textContent = `Automatisch volgende over ${counter}`;
                 counter--;
             }, i * interval),
         );
@@ -63,7 +62,7 @@ function endTimers() {
         clearTimeout(myTimer);
     });
 
-    document.getElementById('auto-next').innerText = ``;
+    document.getElementById('auto-next').textContent = ``;
     document.getElementById('next').style.visibility = 'hidden';
 }
 
@@ -96,10 +95,12 @@ paths.forEach(path => {
 document.getElementById('next').addEventListener('click', newQuestion);
 
 function newQuestion() {
-    answeredCorrect = false;
     endTimers();
     clearElementClasses();
+    timers = [];
+    answeredCorrect = false;
     randomProvince();
+    previousProvince = province;
 }
 
 newQuestion();
