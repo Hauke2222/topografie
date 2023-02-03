@@ -2,6 +2,7 @@ let province;
 let timers = [];
 let right = 0;
 let wrong = 0;
+let answeredCorrect = false;
 
 let provinces = [
     {id: 'NL-DR', name: 'Drenthe'},
@@ -64,10 +65,15 @@ function endTimers() {
 const paths = document.querySelectorAll('path');
 paths.forEach(path => {
     path.addEventListener('click', e => {
+        if (answeredCorrect === true) {
+            return;
+        }
+
         const id = e.target.getAttribute('id');
         const clickedProvince = provinces.find(province => province.id === id);
 
         if (clickedProvince === province) {
+            answeredCorrect = true;
             let path = document.getElementById(id);
             path.classList.add('correct');
             right += 1;
@@ -85,6 +91,7 @@ paths.forEach(path => {
 document.getElementById('next').addEventListener('click', newQuestion);
 
 function newQuestion() {
+    answeredCorrect = false;
     endTimers();
     clearElementClasses();
     randomProvince();
