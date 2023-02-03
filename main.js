@@ -1,4 +1,5 @@
 let province;
+let timers = [];
 let right = 0;
 let wrong = 0;
 
@@ -31,21 +32,33 @@ function clearElementClasses() {
 }
 
 function autoNext() {
-    let counter = 5;
+    let counter = 3;
     let interval = 1000;
     document.getElementById('next').style.visibility = 'visible';
 
     for (let i = 0; i < counter; i++) {
-        setTimeout(function () {
-            document.getElementById('auto-next').innerText = `Automatisch volgende over ${counter}`;
-            counter--;
-        }, i * interval);
+        timers.push(
+            setTimeout(function () {
+                document.getElementById('auto-next').innerText = `Automatisch volgende over ${counter}`;
+                counter--;
+            }, i * interval),
+        );
     }
-    setTimeout(function () {
-        newQuestion();
-        document.getElementById('auto-next').innerText = ``;
-        document.getElementById('next').style.visibility = 'hidden';
-    }, 5000);
+
+    timers.push(
+        setTimeout(function () {
+            newQuestion();
+        }, 3000),
+    );
+}
+
+function endTimers() {
+    timers.forEach(myTimer => {
+        clearTimeout(myTimer);
+    });
+
+    document.getElementById('auto-next').innerText = ``;
+    document.getElementById('next').style.visibility = 'hidden';
 }
 
 const paths = document.querySelectorAll('path');
@@ -72,6 +85,7 @@ paths.forEach(path => {
 document.getElementById('next').addEventListener('click', newQuestion);
 
 function newQuestion() {
+    endTimers();
     clearElementClasses();
     randomProvince();
 }
