@@ -64,9 +64,16 @@ p {
     margin-bottom: 1.4rem;
 }
 
-path:hover {
+path:active {
     fill: lightgray;
     cursor: pointer;
+}
+
+@media (hover: hover) {
+    path:hover {
+        fill: lightgray;
+        cursor: pointer;
+    }
 }
 
 .land {
