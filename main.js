@@ -1,4 +1,5 @@
 let province;
+let previousProvince;
 let timers = [];
 let right = 0;
 let wrong = 0;
@@ -20,7 +21,11 @@ let provinces = [
 ];
 
 function randomProvince() {
-    province = provinces[Math.floor(Math.random() * provinces.length)];
+    do {
+        province = provinces[Math.floor(Math.random() * provinces.length)];
+    } while (province === previousProvince);
+
+    previousProvince = province;
     let questionEl = document.getElementById('question');
     questionEl.innerHTML = 'Klik op de provincie ' + province.name;
 }
