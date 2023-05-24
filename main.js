@@ -6,18 +6,18 @@ let wrong = 0;
 let answeredCorrect = false;
 
 let provinces = [
-    {id: 'NL-DR', name: 'Drenthe'},
-    {id: 'NL-FL', name: 'Flevoland'},
-    {id: 'NL-FR', name: 'Friesland'},
-    {id: 'NL-GE', name: 'Gelderland'},
-    {id: 'NL-GR', name: 'Groningen'},
-    {id: 'NL-LI', name: 'Limburg'},
-    {id: 'NL-NB', name: 'Noord-Brabant'},
-    {id: 'NL-NH', name: 'Noord-Holland'},
-    {id: 'NL-OV', name: 'Overijssel'},
-    {id: 'NL-UT', name: 'Utrecht'},
-    {id: 'NL-ZE', name: 'Zeeland'},
-    {id: 'NL-ZH', name: 'Zuid-Holland'},
+    { id: 'NL-DR', name: 'Drenthe' },
+    { id: 'NL-FL', name: 'Flevoland' },
+    { id: 'NL-FR', name: 'Friesland' },
+    { id: 'NL-GE', name: 'Gelderland' },
+    { id: 'NL-GR', name: 'Groningen' },
+    { id: 'NL-LI', name: 'Limburg' },
+    { id: 'NL-NB', name: 'Noord-Brabant' },
+    { id: 'NL-NH', name: 'Noord-Holland' },
+    { id: 'NL-OV', name: 'Overijssel' },
+    { id: 'NL-UT', name: 'Utrecht' },
+    { id: 'NL-ZE', name: 'Zeeland' },
+    { id: 'NL-ZH', name: 'Zuid-Holland' },
 ];
 
 function randomProvince() {
@@ -66,31 +66,6 @@ function endTimers() {
     document.getElementById('next').style.visibility = 'hidden';
 }
 
-const paths = document.querySelectorAll('path');
-paths.forEach(path => {
-    path.addEventListener('click', e => {
-        if (answeredCorrect === true) {
-            return;
-        }
-
-        const id = e.target.getAttribute('id');
-        const clickedProvince = provinces.find(province => province.id === id);
-
-        if (clickedProvince === province) {
-            answeredCorrect = true;
-            let path = document.getElementById(id);
-            path.classList.add('correct');
-            right += 1;
-            document.getElementById('right').textContent = `Goed: ${right}`;
-            autoNext();
-        } else {
-            let path = document.getElementById(id);
-            path.classList.add('incorrect');
-            wrong += 1;
-            document.getElementById('wrong').textContent = `Fout: ${wrong}`;
-        }
-    });
-});
 
 document.getElementById('next').addEventListener('click', newQuestion);
 
@@ -103,4 +78,58 @@ function newQuestion() {
     previousProvince = province;
 }
 
+loadMap('asiaLow.svg');
 newQuestion();
+
+const selectElement = document.getElementById('svgSelect');
+const containerElement = document.getElementById('svgContainer');
+
+selectElement.addEventListener('change', function () {
+    const selectedOption = selectElement.value;
+    console.log(selectedOption);
+    // Remove any existing SVG content
+    containerElement.innerHTML = '';
+    loadMap(selectedOption);
+});
+
+function loadMap(map) {
+    fetch(`maps/${map}`)
+        .then(response => response.text())
+        .then(svgData => {
+            // Create a new DOM element for the SVG
+            const svgElement = new DOMParser().parseFromString(svgData, 'image/svg+xml').documentElement;
+            // Append the SVG element to the desired location in the DOM
+            document.getElementById('svgContainer').appendChild(svgElement);
+
+            const paths = document.querySelectorAll('path');
+            paths.forEach(path => {
+                path.addEventListener('click', e => {
+                    if (answeredCorrect === true) {
+                        return;
+                    }
+
+                    const id = e.target.getAttribute('id');
+                    const clickedProvince = provinces.find(province => province.id === id);
+
+                    if (clickedProvince === province) {
+                        answeredCorrect = true;
+                        let path = document.getElementById(id);
+                        path.classList.add('correct');
+                        right += 1;
+                        document.getElementById('right').textContent = `Goed: ${right}`;
+                        autoNext();
+                    } else {
+                        let path = document.getElementById(id);
+                        path.classList.add('incorrect');
+                        wrong += 1;
+                        document.getElementById('wrong').textContent = `Fout: ${wrong}`;
+                    }
+                });
+            });
+
+        })
+        .catch(error => {
+            // Handle any errors that occur during the fetch
+            console.error('Error loading SVG:', error);
+        });
+}
