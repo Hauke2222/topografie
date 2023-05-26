@@ -9,7 +9,7 @@ body {
     color: #111;
     padding: 4px;
     margin: 0 auto;
-    max-width: 50rem;
+    max-width: 66rem;
     text-align: center;
 }
 
@@ -138,16 +138,35 @@ button {
 }
 
 .relocate-africa {
-    transition-duration: 1.5s;
     transform-origin: center;
     transform-box: fill-box;
-    transform: scale(2.75) translate(-75px, -50px);
+    transform: scale(2) translate(-100px, -100px);
 }
 
 .relocate-asia {
-    transform: scale(1.3) translate(-500px, -50px);
+    transform: scale(1) translate(-450px, -25px);
 }
 
 .relocate-europe {
-    transform: scale(1.3) translate(-50px, -50px);
+    transform: scale(0.75) translate(50px, 40px);
+}
+
+.south-america {
+    transform: scale(1.7) translate(-100px, -400px);
+}
+
+.north-america {
+    transform: scale(1) translate(60px, 25px);
+}
+
+.middle-east {
+    transform: scale(3) translate(-500px, -300px);
+}
+
+.relocate-oceania {
+    transform: scale(2) translate(-700px, -375px);
+}
+
+.relocate-world {
+    transform: scale(0.66) translate(-5px, 25px);
 }

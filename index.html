@@ -9,28 +9,24 @@
     </head>
 
     <body>
-        <h2 id="question">Klik op de provincie -</h2>
-        <!-- <img class="scalable-svg" src="maps/netherlandsHigh.svg" /> -->
+        <h2 id="question">Click on -</h2>
 
         <select id="svgSelect">
             <option>Selecteer een kaart</option>
-            <option value="africaLow.svg">Africa</option>
-            <option value="asiaLow.svg">Asia</option>
-            <option value="europeHigh.svg">Europe</option>
-            <option value="latinAmericaLow.svg">Latin America</option>
-            <option value="netherlandsHigh.svg">Netherlands</option>
-            <option value="oceaniaHigh.svg">Oceania</option>
-            <option value="worldIndiaLow.svg">World India</option>
+            <option value="africa.svg">Africa</option>
+            <option value="asia.svg">Asia</option>
+            <option value="europe.svg">Europe</option>
+            <option value="southAmerica.svg">South America</option>
+            <option value="northAmerica.svg">North America</option>
+            <option value="middleEast.svg">Middle East</option>
+            <option value="oceania.svg">Oceania</option>
+            <option value="world.svg">World</option>
         </select>
 
         <div id="svgContainer"></div>
 
-        <div class="inline">
-            <p id="right">Goed: 0</p>
-            <p id="wrong">Fout: 0</p>
-        </div>
         <p id="auto-next"></p>
         <button id="next">Volgende</button>
-        <script src="main.js"></script>
+        <script type="module" src="main.js"></script>
     </body>
 </html>

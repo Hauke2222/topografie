@@ -1,32 +1,18 @@
-let province;
-let previousProvince;
+import * as continents from './continents.js';
+
+let country;
+let previousCountry;
 let timers = [];
-let right = 0;
-let wrong = 0;
 let answeredCorrect = false;
+let continent;
 
-let provinces = [
-    { id: 'NL-DR', name: 'Drenthe' },
-    { id: 'NL-FL', name: 'Flevoland' },
-    { id: 'NL-FR', name: 'Friesland' },
-    { id: 'NL-GE', name: 'Gelderland' },
-    { id: 'NL-GR', name: 'Groningen' },
-    { id: 'NL-LI', name: 'Limburg' },
-    { id: 'NL-NB', name: 'Noord-Brabant' },
-    { id: 'NL-NH', name: 'Noord-Holland' },
-    { id: 'NL-OV', name: 'Overijssel' },
-    { id: 'NL-UT', name: 'Utrecht' },
-    { id: 'NL-ZE', name: 'Zeeland' },
-    { id: 'NL-ZH', name: 'Zuid-Holland' },
-];
-
-function randomProvince() {
+function randomCountry() {
     do {
-        province = provinces[Math.floor(Math.random() * provinces.length)];
-    } while (province === previousProvince);
+        country = continent[Math.floor(Math.random() * continent.length)];
+    } while (country === previousCountry);
 
     let questionEl = document.getElementById('question');
-    questionEl.innerHTML = 'Klik op de provincie ' + province.name;
+    questionEl.innerHTML = 'Click on ' + country.name;
 }
 
 function clearElementClasses() {
@@ -37,7 +23,7 @@ function clearElementClasses() {
 }
 
 function autoNext() {
-    let counter = 3;
+    let counter = 2;
     let interval = 1000;
     document.getElementById('next').style.visibility = 'visible';
 
@@ -53,7 +39,7 @@ function autoNext() {
     timers.push(
         setTimeout(function () {
             newQuestion();
-        }, 3000),
+        }, 2000),
     );
 }
 
@@ -66,39 +52,23 @@ function endTimers() {
     document.getElementById('next').style.visibility = 'hidden';
 }
 
-
-document.getElementById('next').addEventListener('click', newQuestion);
-
-function newQuestion() {
-    endTimers();
-    clearElementClasses();
-    timers = [];
-    answeredCorrect = false;
-    randomProvince();
-    previousProvince = province;
-}
-
-loadMap('asiaLow.svg');
-newQuestion();
-
 const selectElement = document.getElementById('svgSelect');
 const containerElement = document.getElementById('svgContainer');
 
 selectElement.addEventListener('change', function () {
     const selectedOption = selectElement.value;
-    console.log(selectedOption);
-    // Remove any existing SVG content
     containerElement.innerHTML = '';
     loadMap(selectedOption);
+    newQuestion();
 });
 
 function loadMap(map) {
+    continent = map.slice(0, -4);
+    continent = continents[continent];
     fetch(`maps/${map}`)
         .then(response => response.text())
         .then(svgData => {
-            // Create a new DOM element for the SVG
             const svgElement = new DOMParser().parseFromString(svgData, 'image/svg+xml').documentElement;
-            // Append the SVG element to the desired location in the DOM
             document.getElementById('svgContainer').appendChild(svgElement);
 
             const paths = document.querySelectorAll('path');
@@ -109,27 +79,36 @@ function loadMap(map) {
                     }
 
                     const id = e.target.getAttribute('id');
-                    const clickedProvince = provinces.find(province => province.id === id);
+                    const clickedCountry = continent.find(country => country.id === id);
 
-                    if (clickedProvince === province) {
+                    if (clickedCountry === country) {
                         answeredCorrect = true;
                         let path = document.getElementById(id);
                         path.classList.add('correct');
-                        right += 1;
-                        document.getElementById('right').textContent = `Goed: ${right}`;
                         autoNext();
                     } else {
                         let path = document.getElementById(id);
                         path.classList.add('incorrect');
-                        wrong += 1;
-                        document.getElementById('wrong').textContent = `Fout: ${wrong}`;
                     }
                 });
             });
 
         })
         .catch(error => {
-            // Handle any errors that occur during the fetch
             console.error('Error loading SVG:', error);
         });
+}
+
+loadMap('africa.svg');
+newQuestion();
+
+document.getElementById('next').addEventListener('click', newQuestion);
+
+function newQuestion() {
+    endTimers();
+    clearElementClasses();
+    timers = [];
+    answeredCorrect = false;
+    randomCountry();
+    previousCountry = country;
 }
