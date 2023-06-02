@@ -12,7 +12,6 @@
         <h2 id="question">Click on -</h2>
 
         <select id="svgSelect">
-            <option>Selecteer een kaart</option>
             <option value="africa.svg">Africa</option>
             <option value="asia.svg">Asia</option>
             <option value="europe.svg">Europe</option>
@@ -23,7 +22,10 @@
             <option value="world.svg">World</option>
         </select>
 
-        <div id="svgContainer"></div>
+        <div class="container">
+            <!-- <div id="magnifier"></div> -->
+            <div id="zoom" class="magnify-wrapper"></div>
+        </div>
 
         <p id="auto-next"></p>
         <button id="next">Volgende</button>

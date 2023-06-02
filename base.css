@@ -73,7 +73,9 @@ path:active {
 }
 
 .land {
-    fill: #b1b1b1;
+    /* fill: #b1b1b1;
+     */
+    fill: black;
     fill-opacity: 1;
     stroke: white;
     stroke-opacity: 1;
@@ -148,7 +150,7 @@ button {
 }
 
 .relocate-europe {
-    transform: scale(0.75) translate(50px, 40px);
+    transform: scale(0.75) translate(50px, 20px);
 }
 
 .south-america {
@@ -169,4 +171,34 @@ button {
 
 .relocate-world {
     transform: scale(0.66) translate(-5px, 25px);
+}
+
+
+.magnify-wrapper {
+    position: relative;
+    /* max-height: 50vh; */
+}
+
+.magnify-wrapper img {
+    max-height: inherit;
+}
+
+.magnify-wrapper #large-img {
+    /* background: url("/maps/africa.svg") no-repeat #fff; */
+    width: 100px;
+    height: 100px;
+    box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+    position: absolute;
+    border: 4px solid #efefef;
+    z-index: 99;
+    border-radius: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.magnify-wrapper:hover #large-img,
+.magnify-wrapper:active #large-img {
+    opacity: 1;
 }

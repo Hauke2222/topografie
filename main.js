@@ -53,7 +53,7 @@ function endTimers() {
 }
 
 const selectElement = document.getElementById('svgSelect');
-const containerElement = document.getElementById('svgContainer');
+const containerElement = document.getElementById('zoom');
 
 selectElement.addEventListener('change', function () {
     const selectedOption = selectElement.value;
@@ -69,7 +69,50 @@ function loadMap(map) {
         .then(response => response.text())
         .then(svgData => {
             const svgElement = new DOMParser().parseFromString(svgData, 'image/svg+xml').documentElement;
-            document.getElementById('svgContainer').appendChild(svgElement);
+            svgElement.setAttribute('id', 'main-img');
+            document.getElementById('zoom').appendChild(svgElement);
+
+            const divElement = document.createElement('div');
+            divElement.setAttribute('id', 'large-img');
+            svgElement.parentNode.appendChild(divElement);
+
+
+            document.getElementById("zoom").addEventListener(
+                "mousemove",
+                function (e) {
+                    let original = document.getElementById("main-img"),
+                        magnified = document.getElementById("large-img"),
+                        style = magnified.style,
+                        x = e.pageX - this.offsetLeft,
+                        y = e.pageY - this.offsetTop,
+                        imgWidth = original.width,
+                        imgHeight = original.height,
+                        xperc = (x / imgWidth) * 100,
+                        yperc = (y / imgHeight) * 100;
+
+
+                    // Add some margin for right edge
+                    if (x > 0.01 * imgWidth) {
+                        xperc += 0.15 * xperc;
+                    }
+
+                    // Add some margin for bottom edge
+                    if (y >= 0.01 * imgHeight) {
+                        yperc += 0.15 * yperc;
+                    }
+
+                    // Set the background of the magnified image horizontal
+                    style.backgroundPositionX = xperc - 9 + "%";
+                    // Set the background of the magnified image vertical
+                    style.backgroundPositionY = yperc - 9 + "%";
+
+                    // Move the magnifying glass with the mouse movement.
+                    style.left = x - 50 + "px";
+                    style.top = y - 50 + "px";
+                },
+                false
+            );
+
 
             const paths = document.querySelectorAll('path');
             paths.forEach(path => {
@@ -92,7 +135,6 @@ function loadMap(map) {
                     }
                 });
             });
-
         })
         .catch(error => {
             console.error('Error loading SVG:', error);
