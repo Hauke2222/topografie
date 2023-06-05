@@ -184,9 +184,8 @@ button {
 }
 
 .magnify-wrapper #large-img {
-    /* background: url("/maps/africa.svg") no-repeat #fff; */
-    width: 100px;
-    height: 100px;
+    /* width: 100px;
+    height: 100px; */
     box-shadow: 0 5px 10px -2px rgba(0, 0, 0, 0.3);
     pointer-events: none;
     position: absolute;
@@ -201,4 +200,8 @@ button {
 .magnify-wrapper:hover #large-img,
 .magnify-wrapper:active #large-img {
     opacity: 1;
+}
+
+svg {
+    /* background-color: red; */
 }

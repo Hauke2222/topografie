@@ -72,46 +72,73 @@ function loadMap(map) {
             svgElement.setAttribute('id', 'main-img');
             document.getElementById('zoom').appendChild(svgElement);
 
-            const divElement = document.createElement('div');
-            divElement.setAttribute('id', 'large-img');
-            svgElement.parentNode.appendChild(divElement);
+            let svg = svgElement;
+            let reset = document.querySelector("#reset");
 
+            let point = svg.createSVGPoint();
+            let viewBox = svg.viewBox.baseVal;
 
-            document.getElementById("zoom").addEventListener(
-                "mousemove",
-                function (e) {
-                    let original = document.getElementById("main-img"),
-                        magnified = document.getElementById("large-img"),
-                        style = magnified.style,
-                        x = e.pageX - this.offsetLeft,
-                        y = e.pageY - this.offsetTop,
-                        imgWidth = original.width,
-                        imgHeight = original.height,
-                        xperc = (x / imgWidth) * 100,
-                        yperc = (y / imgHeight) * 100;
+            let cachedViewBox = {
+                x: viewBox.x,
+                y: viewBox.y,
+                width: viewBox.width,
+                height: viewBox.height
+            };
 
+            reset.addEventListener("click", resetView);
+            window.addEventListener("wheel", onWheel);
 
-                    // Add some margin for right edge
-                    if (x > 0.01 * imgWidth) {
-                        xperc += 0.15 * xperc;
-                    }
+            function onWheel(event) {
 
-                    // Add some margin for bottom edge
-                    if (y >= 0.01 * imgHeight) {
-                        yperc += 0.15 * yperc;
-                    }
+                event.preventDefault();
 
-                    // Set the background of the magnified image horizontal
-                    style.backgroundPositionX = xperc - 9 + "%";
-                    // Set the background of the magnified image vertical
-                    style.backgroundPositionY = yperc - 9 + "%";
+                let normalized;
+                let delta = event.wheelDelta;
 
-                    // Move the magnifying glass with the mouse movement.
-                    style.left = x - 50 + "px";
-                    style.top = y - 50 + "px";
-                },
-                false
-            );
+                if (delta) {
+                    normalized = (delta % 120) == 0 ? delta / 120 : delta / 12;
+                } else {
+                    delta = event.deltaY || event.detail || 0;
+                    normalized = -(delta % 3 ? delta * 10 : delta / 3);
+                }
+
+                let scaleFactor = 1.2;
+                let scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor;
+
+                point.x = event.clientX;
+                point.y = event.clientY;
+
+                let startPoint = point.matrixTransform(svg.getScreenCTM().inverse());
+
+                let fromVars = {
+                    x: viewBox.x,
+                    y: viewBox.y,
+                    width: viewBox.width,
+                    height: viewBox.height,
+                    ease: Power2.easeOut
+                };
+
+                viewBox.x -= (startPoint.x - viewBox.x) * (scaleDelta - 1);
+                viewBox.y -= (startPoint.y - viewBox.y) * (scaleDelta - 1);
+                viewBox.width *= scaleDelta;
+                viewBox.height *= scaleDelta;
+
+                gsap.from(viewBox, {
+                    duration: 0.5,
+                    ...fromVars
+                });
+            }
+
+            function resetView() {
+
+                gsap.to(viewBox, {
+                    duration: 0.4,
+                    x: cachedViewBox.x,
+                    y: cachedViewBox.y,
+                    width: cachedViewBox.width,
+                    height: cachedViewBox.height,
+                });
+            }
 
 
             const paths = document.querySelectorAll('path');
