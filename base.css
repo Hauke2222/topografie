@@ -9,15 +9,7 @@ body {
     color: #111;
     padding: 4px;
     margin: 0 auto;
-    /* max-width: 66rem; */
     text-align: center;
-}
-
-a,
-a:visited {
-    color: #a00;
-    text-decoration: underline 1px;
-    text-underline-offset: 2px;
 }
 
 h1,
@@ -73,8 +65,6 @@ path:active {
 }
 
 .land {
-    /* fill: #b1b1b1; */
-
     fill: black;
     fill-opacity: 1;
     stroke: white;
@@ -91,16 +81,6 @@ select {
     z-index: 1;
 }
 
-.inline {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-.inline>p {
-    padding-right: 0.5em;
-    padding-left: 0.5em;
-}
 
 button,
 select,
@@ -116,25 +96,6 @@ h2 {
 .incorrect,
 .incorrect:hover {
     fill: lightcoral;
-}
-
-#right,
-#wrong {
-    padding: 2px;
-    padding-right: 6px;
-    padding-left: 6px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-#right {
-
-    background-color: lightgreen;
-}
-
-#wrong {
-
-    background-color: lightcoral;
 }
 
 .relocate-africa {
@@ -173,16 +134,10 @@ h2 {
 
 #container {
     margin: 0 auto;
-    /* border-style: dashed;
-    border-color: #ccc;
-    border-width: 2px; */
     width: fit-content;
-    /* background-color: lightseagreen; */
 }
 
 
 svg {
-    /* background-color: red; */
     height: 600px;
-
 }
