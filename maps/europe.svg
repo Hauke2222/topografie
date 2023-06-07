@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- (c) ammap.com | SVG map of Europe - High -->
-<svg preserveAspectRatio="xMinYMid meet" viewBox="0 0 770 825" xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+<svg preserveAspectRatio="xMinYMid meet" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" xmlns:amcharts="http://amcharts.com/ammap" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 	<defs>
 
 		<amcharts:ammap projection="mercator" leftLongitude="-31.108978" topLatitude="80.486581" rightLongitude="87.150806" bottomLatitude="27.660797"></amcharts:ammap>

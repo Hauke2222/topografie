@@ -25,12 +25,11 @@ function clearElementClasses() {
 function autoNext() {
     let counter = 2;
     let interval = 1000;
-    document.getElementById('next').style.visibility = 'visible';
 
     for (let i = 0; i < counter; i++) {
         timers.push(
             setTimeout(function () {
-                document.getElementById('auto-next').textContent = `Automatisch volgende over ${counter}`;
+                document.getElementById('auto-next').textContent = `Next in ${counter}`;
                 counter--;
             }, i * interval),
         );
@@ -49,15 +48,14 @@ function endTimers() {
     });
 
     document.getElementById('auto-next').textContent = ``;
-    document.getElementById('next').style.visibility = 'hidden';
 }
 
 const selectElement = document.getElementById('svgSelect');
-const containerElement = document.getElementById('zoom');
-
 selectElement.addEventListener('change', function () {
     const selectedOption = selectElement.value;
-    containerElement.innerHTML = '';
+    const map = document.getElementById('map');
+    map.remove();
+
     loadMap(selectedOption);
     newQuestion();
 });
@@ -69,77 +67,10 @@ function loadMap(map) {
         .then(response => response.text())
         .then(svgData => {
             const svgElement = new DOMParser().parseFromString(svgData, 'image/svg+xml').documentElement;
-            svgElement.setAttribute('id', 'main-img');
-            document.getElementById('zoom').appendChild(svgElement);
+            svgElement.setAttribute('id', 'map');
+            document.getElementById('container').append(svgElement);
 
-            let svg = svgElement;
-            let reset = document.querySelector("#reset");
-
-            let point = svg.createSVGPoint();
-            let viewBox = svg.viewBox.baseVal;
-
-            let cachedViewBox = {
-                x: viewBox.x,
-                y: viewBox.y,
-                width: viewBox.width,
-                height: viewBox.height
-            };
-
-            reset.addEventListener("click", resetView);
-            window.addEventListener("wheel", onWheel);
-
-            function onWheel(event) {
-
-                event.preventDefault();
-
-                let normalized;
-                let delta = event.wheelDelta;
-
-                if (delta) {
-                    normalized = (delta % 120) == 0 ? delta / 120 : delta / 12;
-                } else {
-                    delta = event.deltaY || event.detail || 0;
-                    normalized = -(delta % 3 ? delta * 10 : delta / 3);
-                }
-
-                let scaleFactor = 1.2;
-                let scaleDelta = normalized > 0 ? 1 / scaleFactor : scaleFactor;
-
-                point.x = event.clientX;
-                point.y = event.clientY;
-
-                let startPoint = point.matrixTransform(svg.getScreenCTM().inverse());
-
-                let fromVars = {
-                    x: viewBox.x,
-                    y: viewBox.y,
-                    width: viewBox.width,
-                    height: viewBox.height,
-                    ease: Power2.easeOut
-                };
-
-                viewBox.x -= (startPoint.x - viewBox.x) * (scaleDelta - 1);
-                viewBox.y -= (startPoint.y - viewBox.y) * (scaleDelta - 1);
-                viewBox.width *= scaleDelta;
-                viewBox.height *= scaleDelta;
-
-                gsap.from(viewBox, {
-                    duration: 0.5,
-                    ...fromVars
-                });
-            }
-
-            function resetView() {
-
-                gsap.to(viewBox, {
-                    duration: 0.4,
-                    x: cachedViewBox.x,
-                    y: cachedViewBox.y,
-                    width: cachedViewBox.width,
-                    height: cachedViewBox.height,
-                });
-            }
-
+            zoom(svgElement);
 
             const paths = document.querySelectorAll('path');
             paths.forEach(path => {
@@ -166,6 +97,62 @@ function loadMap(map) {
         .catch(error => {
             console.error('Error loading SVG:', error);
         });
+}
+
+function zoom(svg) {
+    const zoom = (direction) => {
+        const { scale, x, y } = getTransformParameters(svg);
+        let dScale = 0.1;
+        if (direction == "out") dScale *= -1;
+        if (scale == 0.1 && direction == "out") dScale = 0;
+        svg.style.transform = getTransformString(scale + dScale, x, y);
+    };
+
+    const getTransformParameters = (element) => {
+        const transform = element.style.transform;
+        let scale = 1,
+            x = 0,
+            y = 0;
+        if (transform.includes("scale"))
+            scale = parseFloat(transform.slice(transform.indexOf("scale") + 6));
+        if (transform.includes("translateX"))
+            x = parseInt(transform.slice(transform.indexOf("translateX") + 11));
+        if (transform.includes("translateY"))
+            y = parseInt(transform.slice(transform.indexOf("translateY") + 11));
+        return { scale, x, y };
+    };
+
+    const getTransformString = (scale, x, y) =>
+        "scale(" + scale + ") " + "translateX(" + x + "%) translateY(" + y + "%)";
+
+
+    const pan = (direction) => {
+        const { scale, x, y } = getTransformParameters(svg);
+        let dx = 0,
+            dy = 0;
+        switch (direction) {
+            case "left":
+                dx = -3;
+                break;
+            case "right":
+                dx = 3;
+                break;
+            case "up":
+                dy = -3;
+                break;
+            case "down":
+                dy = 3;
+                break;
+        }
+        svg.style.transform = getTransformString(scale, x + dx, y + dy);
+    };
+
+    document.getElementById("left-button").onclick = () => pan("left");
+    document.getElementById("right-button").onclick = () => pan("right");
+    document.getElementById("up-button").onclick = () => pan("up");
+    document.getElementById("down-button").onclick = () => pan("down");
+    document.getElementById("zoom-in-button").onclick = () => zoom("in");
+    document.getElementById("zoom-out-button").onclick = () => zoom("out");
 }
 
 loadMap('africa.svg');

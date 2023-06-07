@@ -10,29 +10,32 @@
 
     <body>
         <h2 id="question">Click on -</h2>
-        <div class="controls">
-            <button id="reset">Reset</button>
+
+        <div id="container" class="container">
+            <div class="controls">
+                <select id="svgSelect">
+                    <option value="africa.svg">Africa</option>
+                    <option value="asia.svg">Asia</option>
+                    <option value="europe.svg">Europe</option>
+                    <option value="southAmerica.svg">South America</option>
+                    <option value="northAmerica.svg">North America</option>
+                    <option value="middleEast.svg">Middle East</option>
+                    <option value="oceania.svg">Oceania</option>
+                    <option value="world.svg">World</option>
+                </select>
+            </div>
         </div>
-
-        <select id="svgSelect">
-            <option value="africa.svg">Africa</option>
-            <option value="asia.svg">Asia</option>
-            <option value="europe.svg">Europe</option>
-            <option value="southAmerica.svg">South America</option>
-            <option value="northAmerica.svg">North America</option>
-            <option value="middleEast.svg">Middle East</option>
-            <option value="oceania.svg">Oceania</option>
-            <option value="world.svg">World</option>
-        </select>
-
-        <div class="container">
-            <!-- <div id="magnifier"></div> -->
-            <div id="zoom" class="magnify-wrapper"></div>
+        <div class="controls">
+            <button id="left-button">&larr;</button>
+            <button id="right-button">&rarr;</button>
+            <button id="up-button">&uarr;</button>
+            <button id="down-button">&darr;</button>
+            <button id="zoom-in-button">zoom in</button>
+            <button id="zoom-out-button">zoom out</button>
         </div>
 
         <p id="auto-next"></p>
-        <button id="next">Volgende</button>
+        <button id="next">next</button>
         <script type="module" src="main.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     </body>
 </html>
