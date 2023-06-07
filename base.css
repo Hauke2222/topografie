@@ -141,3 +141,10 @@ h2 {
 svg {
     height: 600px;
 }
+
+@media only screen and (max-width: 600px) {
+
+    .move-controls {
+        display: none;
+    }
+}
