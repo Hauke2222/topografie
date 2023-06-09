@@ -99,9 +99,9 @@ export const asia = [
 
 export const europe = [
     { id: 'RU', name: 'Russia' },
-    { id: 'GI', name: 'Gibraltar' },
+    // { id: 'GI', name: 'Gibraltar' },
     { id: 'NL', name: 'Netherlands' },
-    { id: 'VA', name: 'Vatican City' },
+    // { id: 'VA', name: 'Vatican City' },
     { id: 'CY', name: 'Cyprus' },
     { id: 'UA', name: 'Ukraine' },
     { id: 'TR', name: 'Turkey' },
@@ -160,7 +160,7 @@ export const europe = [
 
 export const middleEast = [
     { id: 'AE', name: 'United Arab Emirates' },
-    { id: 'BH', name: 'Bahrain' },
+    // { id: 'BH', name: 'Bahrain' },
     { id: 'IL', name: 'Israel' },
     { id: 'IQ', name: 'Iraq' },
     { id: 'IR', name: 'Iran' },
