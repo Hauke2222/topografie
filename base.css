@@ -3,8 +3,7 @@ html {
 }
 
 body {
-    font-family: et-book, Palatino, "Palatino Linotype", "Palatino LT STD",
-        "Book Antiqua", Georgia, serif;
+    font-family: et-book, Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Book Antiqua', Georgia, serif;
     background-color: #fffff8;
     color: #111;
     padding: 4px;
@@ -70,7 +69,6 @@ path:active {
     stroke: white;
     stroke-opacity: 1;
     stroke-width: 0.5;
-
 }
 
 button,
@@ -80,7 +78,6 @@ select {
     position: relative;
     z-index: 1;
 }
-
 
 button,
 select,
@@ -109,7 +106,7 @@ h2 {
 }
 
 .relocate-europe {
-    transform: scale(0.70) translate(35px, 30px);
+    transform: scale(0.7) translate(35px, 30px);
 }
 
 .south-america {
@@ -137,14 +134,15 @@ h2 {
     width: fit-content;
 }
 
-
 svg {
     height: 600px;
 }
 
 @media only screen and (max-width: 600px) {
-
     .move-controls {
         display: none;
+    }
+    svg {
+        height: 375px;
     }
 }
