@@ -6,13 +6,14 @@ let timers = [];
 let answeredCorrect = false;
 let continent;
 
+const selectElement = document.getElementById('svgSelect');
+
+
 function randomCountry() {
     do {
         country = continent[Math.floor(Math.random() * continent.length)];
     } while (country === previousCountry);
-
-    let questionEl = document.getElementById('question');
-    questionEl.innerHTML = 'Click on ' + country.name;
+    document.getElementById('question').textContent = 'Click on ' + country.name;
 }
 
 function clearElementClasses() {
@@ -34,7 +35,6 @@ function autoNext() {
             }, i * interval),
         );
     }
-
     timers.push(
         setTimeout(function () {
             newQuestion();
@@ -46,19 +46,8 @@ function endTimers() {
     timers.forEach(myTimer => {
         clearTimeout(myTimer);
     });
-
     document.getElementById('auto-next').textContent = ``;
 }
-
-const selectElement = document.getElementById('svgSelect');
-selectElement.addEventListener('change', function () {
-    const selectedOption = selectElement.value;
-    const map = document.getElementById('map');
-    map.remove();
-
-    loadMap(selectedOption);
-    newQuestion();
-});
 
 function loadMap(map) {
     continent = map.slice(0, -4);
@@ -155,11 +144,6 @@ function zoom(svg) {
     document.getElementById("zoom-out-button").onclick = () => zoom("out");
 }
 
-loadMap('africa.svg');
-newQuestion();
-
-document.getElementById('next').addEventListener('click', newQuestion);
-
 function newQuestion() {
     endTimers();
     clearElementClasses();
@@ -168,3 +152,17 @@ function newQuestion() {
     randomCountry();
     previousCountry = country;
 }
+
+document.getElementById('next').addEventListener('click', newQuestion);
+
+selectElement.addEventListener('change', function () {
+    const selectedOption = selectElement.value;
+    const map = document.getElementById('map');
+    map.remove();
+
+    loadMap(selectedOption);
+    newQuestion();
+});
+
+loadMap('africa.svg');
+newQuestion();
