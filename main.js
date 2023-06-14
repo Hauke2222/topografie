@@ -12,6 +12,7 @@ const selectElement = document.getElementById('svgSelect');
 function randomCountry() {
     do {
         country = continent[Math.floor(Math.random() * continent.length)];
+        console.log(country);
     } while (country === previousCountry);
     document.getElementById('question').textContent = 'Click on ' + country.name;
 }
@@ -144,6 +145,12 @@ function zoom(svg) {
     document.getElementById("zoom-out-button").onclick = () => zoom("out");
 }
 
+function revealCountry() {
+
+    let path = document.getElementById(country.id);
+    path.classList.add('correct');
+}
+
 function newQuestion() {
     endTimers();
     clearElementClasses();
@@ -154,6 +161,7 @@ function newQuestion() {
 }
 
 document.getElementById('next').addEventListener('click', newQuestion);
+document.getElementById('reveal').addEventListener('click', revealCountry);
 
 selectElement.addEventListener('change', function () {
     const selectedOption = selectElement.value;
